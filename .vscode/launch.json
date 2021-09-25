@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-FeriavirtualApplication<feriavirtual>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.duoc.feriavirtual.FeriavirtualApplication",
+      "projectName": "feriavirtual",
+      "args": ""
+    }
+  ]
+}

@@ -3,6 +3,8 @@ package com.duoc.feriavirtual.services;
 import java.util.Map;
 
 import com.duoc.feriavirtual.entities.UsuarioEntity;
+import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
+import com.duoc.feriavirtual.exceptions.UserNotFoundException;
 import com.duoc.feriavirtual.models.UsuarioModel;
 import com.duoc.feriavirtual.repositories.UsuarioRepository;
 
@@ -18,20 +20,33 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    public Integer loginUser(UsuarioModel usuario) {
-        UsuarioEntity newUsuarioEntity = new UsuarioEntity();
-        newUsuarioEntity.setCorreo(usuario.getCorreo());
-        newUsuarioEntity.setContrasena(usuario.getContrasena());
-        newUsuarioEntity.setIdTipoUsuario(usuario.getIdTipoUsuario());
-        LOGGER.debug("UsuarioService correo: " + newUsuarioEntity.getCorreo());
-        LOGGER.debug("UsuarioService contrasena: " + newUsuarioEntity.getContrasena());
-        LOGGER.debug("UsuarioService idTipoUsuario: " + newUsuarioEntity.getIdTipoUsuario());
+    public String loginUser(UsuarioModel usuario) throws NotFoundComponentFeriaVirtualException {
+        try {
+            UsuarioEntity newUsuarioEntity = new UsuarioEntity();
+            newUsuarioEntity.setCorreo(usuario.getCorreo());
+            newUsuarioEntity.setContrasena(usuario.getContrasena());
+            newUsuarioEntity.setIdTipoUsuario(usuario.getIdTipoUsuario());
+            LOGGER.debug("UsuarioService correo: " + newUsuarioEntity.getCorreo());
+            LOGGER.debug("UsuarioService contrasena: " + newUsuarioEntity.getContrasena());
+            LOGGER.debug("UsuarioService idTipoUsuario: " + newUsuarioEntity.getIdTipoUsuario());
 
-        Map<String, Object> resultLoginProcedure = usuarioRepository.loginUser(newUsuarioEntity.getIdTipoUsuario());
-        // Integer statusOut = (Integer) resultLoginProcedure.get("STATUS_OUT");
+            Map<String, Object> resultLoginProcedure = usuarioRepository.loginUser(newUsuarioEntity.getIdTipoUsuario(),
+                    newUsuarioEntity.getCorreo(), newUsuarioEntity.getContrasena());
 
-        LOGGER.debug("UsuarioService resultLoginProcedure: " + resultLoginProcedure);
+            Integer statusOut = (Integer) resultLoginProcedure.get("STATUS_OUT");
+            String tipoUsuarioOut = (String) resultLoginProcedure.get("TIPO_USUARIO_OUT");
+            LOGGER.debug("UsuarioService resultLoginProcedure: " + resultLoginProcedure);
+            LOGGER.debug("UsuarioService statusOut: " + statusOut);
+            LOGGER.debug("UsuarioService tipoUsuarioOut: " + tipoUsuarioOut);
 
-        return null;
+            if (statusOut == 0) {
+                throw new UserNotFoundException("USER NOT FOUND");
+            } else {
+                return tipoUsuarioOut;
+            }
+
+        } catch (UserNotFoundException exception) {
+            throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.duoc.feriavirtual.controllers;
 
+import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
+import com.duoc.feriavirtual.models.ErrorDetail;
 import com.duoc.feriavirtual.models.UsuarioModel;
 import com.duoc.feriavirtual.services.UsuarioService;
 
@@ -25,10 +27,17 @@ public class UsuarioController {
         LOGGER.debug("Controller getCorreo:" + usuario.getCorreo());
         LOGGER.debug("Controller getIdTipoUsuario:" + usuario.getIdTipoUsuario());
         LOGGER.debug("Controller getContrasena:" + usuario.getContrasena());
+        try {
 
-        Integer statusResult = usuarioService.loginUser(usuario);
-        LOGGER.debug("Controller statusResult:" + statusResult);
+            String profileResult = usuarioService.loginUser(usuario);
+            LOGGER.debug("Controller profileResult:" + profileResult);
+            return new ResponseEntity<String>(profileResult, HttpStatus.ACCEPTED);
+        } catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        } catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        return new ResponseEntity<String>("ok", HttpStatus.CREATED);
     }
 }

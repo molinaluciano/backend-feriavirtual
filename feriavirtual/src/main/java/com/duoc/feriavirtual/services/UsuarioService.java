@@ -30,14 +30,16 @@ public class UsuarioService {
             LOGGER.debug("UsuarioService contrasena: " + newUsuarioEntity.getContrasena());
             LOGGER.debug("UsuarioService idTipoUsuario: " + newUsuarioEntity.getIdTipoUsuario());
 
-            Map<String, Object> resultLoginProcedure = usuarioRepository.loginUser(newUsuarioEntity.getIdTipoUsuario(),
-                    newUsuarioEntity.getCorreo(), newUsuarioEntity.getContrasena());
+            Map<String, Object> resultLoginProcedure = usuarioRepository.loginUser(newUsuarioEntity.getCorreo(),
+                    newUsuarioEntity.getContrasena());
 
             Integer statusOut = (Integer) resultLoginProcedure.get("STATUS_OUT");
             String tipoUsuarioOut = (String) resultLoginProcedure.get("TIPO_USUARIO_OUT");
+            Integer idUsuarioOut = (Integer) resultLoginProcedure.get("ID_USUARIO_OUT");
             LOGGER.debug("UsuarioService resultLoginProcedure: " + resultLoginProcedure);
             LOGGER.debug("UsuarioService statusOut: " + statusOut);
             LOGGER.debug("UsuarioService tipoUsuarioOut: " + tipoUsuarioOut);
+            LOGGER.debug("UsuarioService idUsuarioOut: " + idUsuarioOut);
 
             if (statusOut == 0) {
                 throw new UserNotFoundException("USER NOT FOUND");

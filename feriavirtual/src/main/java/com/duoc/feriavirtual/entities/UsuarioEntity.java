@@ -16,9 +16,9 @@ import javax.persistence.Column;
         @NamedStoredProcedureQuery(name = "Usuario.login", procedureName = "FV_LOGIN", parameters = {
                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "CORREO_IN", type = String.class),
                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "CONTRASENA_IN", type = String.class),
-                @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TIPO_USUARIO_IN", type = Integer.class),
                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_OUT", type = Integer.class),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "TIPO_USUARIO_OUT", type = String.class), }) })
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "TIPO_USUARIO_OUT", type = String.class),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_USUARIO_OUT", type = Integer.class), }) })
 public class UsuarioEntity implements Serializable {
     @Id
     @Column(name = "ID_USUARIO")

@@ -26,7 +26,6 @@ public class UsuarioController {
     public ResponseEntity<?> postMethodName(@RequestBody UsuarioModel usuario) {
         LOGGER.debug("Bienvenido al login:");
         LOGGER.debug("Controller getCorreo:" + usuario.getCorreo());
-        LOGGER.debug("Controller getIdTipoUsuario:" + usuario.getIdTipoUsuario());
         LOGGER.debug("Controller getContrasena:" + usuario.getContrasena());
         try {
 

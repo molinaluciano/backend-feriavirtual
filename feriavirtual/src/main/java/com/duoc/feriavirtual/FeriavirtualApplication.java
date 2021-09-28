@@ -11,6 +11,7 @@ public class FeriavirtualApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FeriavirtualApplication.class, args);
+		System.out.println("Hola Feria Virtual");
 	}
 
 	@Bean
@@ -21,6 +22,7 @@ public class FeriavirtualApplication {
 				registry.addMapping("/**").allowedOrigins("http://localhost:3000").allowedMethods("*")
 						.allowedHeaders("*");
 			}
+
 		};
 	}
 

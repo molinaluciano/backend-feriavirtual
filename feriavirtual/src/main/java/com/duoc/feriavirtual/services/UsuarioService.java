@@ -2,10 +2,12 @@ package com.duoc.feriavirtual.services;
 
 import java.util.Map;
 
+import com.duoc.feriavirtual.converters.CommonConverter;
 import com.duoc.feriavirtual.entities.UsuarioEntity;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.exceptions.UserNotFoundException;
 import com.duoc.feriavirtual.models.UsuarioModel;
+import com.duoc.feriavirtual.models.modelResponse.LoginResponse;
 import com.duoc.feriavirtual.repositories.UsuarioRepository;
 
 import org.slf4j.Logger;
@@ -19,32 +21,21 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    CommonConverter commonConverter;
 
-    public String loginUser(UsuarioModel usuario) throws NotFoundComponentFeriaVirtualException {
+    public LoginResponse loginUser(UsuarioModel usuario) throws NotFoundComponentFeriaVirtualException {
         try {
-            UsuarioEntity newUsuarioEntity = new UsuarioEntity();
-            newUsuarioEntity.setCorreo(usuario.getCorreo());
-            newUsuarioEntity.setContrasena(usuario.getContrasena());
-            newUsuarioEntity.setIdTipoUsuario(usuario.getIdTipoUsuario());
-            LOGGER.debug("UsuarioService correo: " + newUsuarioEntity.getCorreo());
-            LOGGER.debug("UsuarioService contrasena: " + newUsuarioEntity.getContrasena());
-            LOGGER.debug("UsuarioService idTipoUsuario: " + newUsuarioEntity.getIdTipoUsuario());
+            UsuarioEntity newUsuarioEntity = commonConverter.convertUsuarioModelToEntity(usuario);
 
             Map<String, Object> resultLoginProcedure = usuarioRepository.loginUser(newUsuarioEntity.getCorreo(),
                     newUsuarioEntity.getContrasena());
+            LoginResponse loginResponse = commonConverter.converterResponsePLToLoginResponse(resultLoginProcedure);
 
-            Integer statusOut = (Integer) resultLoginProcedure.get("STATUS_OUT");
-            String tipoUsuarioOut = (String) resultLoginProcedure.get("TIPO_USUARIO_OUT");
-            Integer idUsuarioOut = (Integer) resultLoginProcedure.get("ID_USUARIO_OUT");
-            LOGGER.debug("UsuarioService resultLoginProcedure: " + resultLoginProcedure);
-            LOGGER.debug("UsuarioService statusOut: " + statusOut);
-            LOGGER.debug("UsuarioService tipoUsuarioOut: " + tipoUsuarioOut);
-            LOGGER.debug("UsuarioService idUsuarioOut: " + idUsuarioOut);
-
-            if (statusOut == 0) {
+            if (loginResponse.getStatus_out() == 0) {
                 throw new UserNotFoundException("USER NOT FOUND");
             } else {
-                return tipoUsuarioOut;
+                return loginResponse;
             }
 
         } catch (UserNotFoundException exception) {

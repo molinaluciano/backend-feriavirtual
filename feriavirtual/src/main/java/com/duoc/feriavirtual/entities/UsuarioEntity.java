@@ -7,7 +7,10 @@ import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 
+import com.duoc.feriavirtual.models.UsuarioModel;
+
 import java.io.Serializable;
+import java.sql.ResultSet;
 
 import javax.persistence.Column;
 
@@ -18,7 +21,9 @@ import javax.persistence.Column;
                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "CONTRASENA_IN", type = String.class),
                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_OUT", type = Integer.class),
                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "TIPO_USUARIO_OUT", type = String.class),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_USUARIO_OUT", type = Integer.class), }) })
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_USUARIO_OUT", type = Integer.class), }),
+        @NamedStoredProcedureQuery(name = "Usuario.select_user", procedureName = "FV_CURSOR_POC", parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "CURSOR_RESULT_OUT", type = void.class), }) })
 public class UsuarioEntity implements Serializable {
     @Id
     @Column(name = "ID_USUARIO")

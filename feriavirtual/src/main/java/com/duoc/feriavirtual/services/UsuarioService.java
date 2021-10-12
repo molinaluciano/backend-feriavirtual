@@ -1,5 +1,6 @@
 package com.duoc.feriavirtual.services;
 
+import java.util.List;
 import java.util.Map;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
@@ -41,5 +42,27 @@ public class UsuarioService {
         } catch (UserNotFoundException exception) {
             throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
         }
+    }
+
+    public String selectUsersByIdType(Integer idType) {
+        List<UsuarioEntity> resultSelectProcedure = usuarioRepository.selectUserByIdType();
+        LOGGER.debug("resultSelectProcedure: " + resultSelectProcedure);
+        // LOGGER.debug(
+        // "resultSelectProcedure: " +
+        // resultSelectProcedure.getOrDefault("STATUS_RESULT_OUT", "defaultValue"));
+        // LOGGER.debug("resultSelectProcedure.toString(): " +
+        // resultSelectProcedure.toString());
+
+        // Integer statusResultOut = (Integer)
+        // resultSelectProcedure.get("STATUS_RESULT_OUT");
+        // List<UsuarioEntity> cursor = (List<UsuarioEntity>)
+        // resultSelectProcedure.get("STATUS_RESULT_OUT");
+        // Integer cursorResultOut = (Integer)
+        // resultSelectProcedure.get("CURSOR_RESULT_OUT");
+        // LOGGER.debug("USUARIO SERVICE statusResultOut: " + statusResultOut);
+        // LOGGER.debug("USUARIO SERVICE cursor: " + cursor);
+        // LOGGER.debug("cursorResultOut: " + cursorResultOut);
+
+        return null;
     }
 }

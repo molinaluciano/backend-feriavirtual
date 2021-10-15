@@ -13,8 +13,8 @@ logging:
 spring:
   datasource:
     url: jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(Host = localhost)(Port = 1521)))(CONNECT_DATA =(SERVICE_NAME = ORCLCDB.localdomain)(SERVER=dedicated)))
-    username: luciano
-    password: luciano
+    username: duoc 
+    password: duoc
     driver-class-name: oracle.jdbc.OracleDriver
   jpa:
     hibernate:

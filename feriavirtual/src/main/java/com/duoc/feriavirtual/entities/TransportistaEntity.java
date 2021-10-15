@@ -12,23 +12,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 
-@Entity(name = "Usuario")
-@NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(name = "Usuario.login", procedureName = "FV_LOGIN", parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, name = "CORREO_IN", type = String.class),
-                @StoredProcedureParameter(mode = ParameterMode.IN, name = "CONTRASENA_IN", type = String.class),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_OUT", type = Integer.class),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "TIPO_USUARIO_OUT", type = String.class),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_USUARIO_OUT", type = Integer.class), }),
-})
-public class UsuarioEntity implements Serializable {
+@Entity(name = "TRANSPORTISTA")
+public class TransportistaEntity implements Serializable {
     @Id
-    @Column(name = "ID_USUARIO")
+    @Column(name = "ID_TRANSPORTISTA")
     private Long idUsuario;
-    @Column(name = "ID_TIPO_USUARIO")
-    private Integer idTipoUsuario;
-    @Column(name = "ID_PAIS")
-    private Integer idPais;
     @Column(name = "NOMBRE")
     private String nombre;
     @Column(name = "APELLIDO_PATERNO")
@@ -58,21 +46,6 @@ public class UsuarioEntity implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public Integer getIdTipoUsuario() {
-        return idTipoUsuario;
-    }
-
-    public void setIdTipoUsuario(Integer idTipoUsuario) {
-        this.idTipoUsuario = idTipoUsuario;
-    }
-
-    public Integer getIdPais() {
-        return idPais;
-    }
-
-    public void setIdPais(Integer idPais) {
-        this.idPais = idPais;
-    }
 
     public String getNombre() {
         return nombre;

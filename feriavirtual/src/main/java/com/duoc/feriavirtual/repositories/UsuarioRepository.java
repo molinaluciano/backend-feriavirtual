@@ -14,7 +14,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
     @Procedure(name = "Usuario.login")
     Map<String, Object> loginUser(@Param("CORREO_IN") String correo, @Param("CONTRASENA_IN") String contrasena);
 
-    @Procedure(name = "Usuario.select_user")
-    List<UsuarioEntity> selectUserByIdType();
-
+   
+    List<UsuarioEntity> findByidTipoUsuario (Integer idTipoUsuario);
 }

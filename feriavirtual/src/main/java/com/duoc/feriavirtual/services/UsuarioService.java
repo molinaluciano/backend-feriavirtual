@@ -5,11 +5,14 @@ import java.util.Map;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
 import com.duoc.feriavirtual.entities.UsuarioEntity;
+import com.duoc.feriavirtual.exceptions.InvalidModelException;
+import com.duoc.feriavirtual.exceptions.InvalidModelUsuario;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.exceptions.UserNotFoundException;
 import com.duoc.feriavirtual.models.UsuarioModel;
 import com.duoc.feriavirtual.models.modelResponse.LoginResponse;
 import com.duoc.feriavirtual.repositories.UsuarioRepository;
+import com.duoc.feriavirtual.validators.UsuarioValidator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +27,10 @@ public class UsuarioService {
     UsuarioRepository usuarioRepository;
     @Autowired
     CommonConverter commonConverter;
+    @Autowired
+    UsuarioValidator usuarioValidator;
 
-    public LoginResponse loginUser(UsuarioModel usuario) throws NotFoundComponentFeriaVirtualException {
+    public LoginResponse loginUser(UsuarioModel usuario) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
         try {
             UsuarioEntity newUsuarioEntity = commonConverter.convertUsuarioModelToEntity(usuario);
 
@@ -44,25 +49,22 @@ public class UsuarioService {
         }
     }
 
-    public String selectUsersByIdType(Integer idType) {
-        List<UsuarioEntity> resultSelectProcedure = usuarioRepository.selectUserByIdType();
-        LOGGER.debug("resultSelectProcedure: " + resultSelectProcedure);
-        // LOGGER.debug(
-        // "resultSelectProcedure: " +
-        // resultSelectProcedure.getOrDefault("STATUS_RESULT_OUT", "defaultValue"));
-        // LOGGER.debug("resultSelectProcedure.toString(): " +
-        // resultSelectProcedure.toString());
-
-        // Integer statusResultOut = (Integer)
-        // resultSelectProcedure.get("STATUS_RESULT_OUT");
-        // List<UsuarioEntity> cursor = (List<UsuarioEntity>)
-        // resultSelectProcedure.get("STATUS_RESULT_OUT");
-        // Integer cursorResultOut = (Integer)
-        // resultSelectProcedure.get("CURSOR_RESULT_OUT");
-        // LOGGER.debug("USUARIO SERVICE statusResultOut: " + statusResultOut);
-        // LOGGER.debug("USUARIO SERVICE cursor: " + cursor);
-        // LOGGER.debug("cursorResultOut: " + cursorResultOut);
-
-        return null;
+    public List<UsuarioEntity>  selectUsersByIdType(Integer idType) throws  NotFoundComponentFeriaVirtualException, InvalidModelException{
+        try {
+            if (idType < 1 || idType > 5){
+                LOGGER.debug("Id de usuario invalido");
+                throw new InvalidModelUsuario("El id ingresado es invalido");
+            }
+            
+            List<UsuarioEntity>  resultSelectFindByIdTipoUsuario = ( List<UsuarioEntity> ) usuarioRepository.findByidTipoUsuario(idType);
+            usuarioValidator.validateSelectUser(resultSelectFindByIdTipoUsuario);
+            return resultSelectFindByIdTipoUsuario;
+            
+        } catch (UserNotFoundException exception) {
+            throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+        }
+        catch (InvalidModelUsuario exception) {
+            throw new InvalidModelException(exception.getMessage());
+        }
     }
 }

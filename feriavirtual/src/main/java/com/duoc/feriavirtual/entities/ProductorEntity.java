@@ -8,10 +8,10 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 
-@Entity(name = "TRANSPORTISTA")
-public class TransportistaEntity implements Serializable {
+@Entity(name = "PRODUCTOR")
+public class ProductorEntity implements Serializable {
     @Id
-    @Column(name = "ID_TRANSPORTISTA")
+    @Column(name = "ID_PRODUCTOR")
     private Long idUsuario;
     @Column(name = "NOMBRE")
     private String nombre;
@@ -33,6 +33,16 @@ public class TransportistaEntity implements Serializable {
     private String codigoPostal;
     @Column(name = "TELEFONO")
     private Integer telefono;
+    @Column(name = "ID_CONTRATO")
+    private Integer idContrato;
+
+    public Integer getIdContrato() {
+        return idContrato;
+    }
+
+    public void setIdContrato(Integer idContrato) {
+        this.idContrato = idContrato;
+    }
 
     public Long getIdUsuario() {
         return idUsuario;

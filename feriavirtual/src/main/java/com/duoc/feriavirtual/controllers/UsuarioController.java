@@ -6,6 +6,7 @@ import com.duoc.feriavirtual.entities.UsuarioEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.models.ErrorDetail;
+import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.UsuarioModel;
 import com.duoc.feriavirtual.models.modelResponse.LoginResponse;
 import com.duoc.feriavirtual.services.UsuarioService;
@@ -64,4 +65,21 @@ public class UsuarioController {
         }
     }
 
+    @PostMapping(value = "/create-user")
+    public ResponseEntity<?> postNewUser(@RequestBody GeneralUsers newUser) {
+        try {
+            System.out.println(newUser.toString());
+            System.out.println(newUser.getIdContrato());
+            Integer idTypeUser = newUser.getIdTipoUsuario();
+            
+            if(idTypeUser >= 1 && idTypeUser <= 5){
+                usuarioService.createUser(newUser);
+            }
+            return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
+        } catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 }

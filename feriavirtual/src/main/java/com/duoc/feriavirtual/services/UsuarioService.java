@@ -9,6 +9,7 @@ import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.InvalidModelUsuario;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.exceptions.UserNotFoundException;
+import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.UsuarioModel;
 import com.duoc.feriavirtual.models.modelResponse.LoginResponse;
 import com.duoc.feriavirtual.repositories.UsuarioRepository;
@@ -67,4 +68,32 @@ public class UsuarioService {
             throw new InvalidModelException(exception.getMessage());
         }
     }
+    
+    public Boolean createUser(GeneralUsers usuario) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        
+
+            Map<String, Object> resultCreateUser = usuarioRepository.createUser(
+                usuario.getIdTipoUsuario(), 
+                usuario.getIdPais(), 
+                usuario.getNombre(), 
+                usuario.getApellidoPaterno(), 
+                usuario.getApellidoMaterno(), 
+                usuario.getCorreo(), 
+                usuario.getContrasena(), 
+                usuario.getRut(), 
+                usuario.getNumeroIdentificador(), 
+                usuario.getDireccion(), 
+                usuario.getCodigoPostal(), 
+                usuario.getTelefono(), 
+                null
+            );
+
+            System.out.println(resultCreateUser);
+
+            return true;
+           
+
+        
+    }
+
 }

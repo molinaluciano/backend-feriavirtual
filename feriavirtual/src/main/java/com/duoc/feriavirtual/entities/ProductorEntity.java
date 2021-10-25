@@ -2,13 +2,35 @@ package com.duoc.feriavirtual.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 
 @Entity(name = "PRODUCTOR")
+@NamedStoredProcedureQueries({
+    @NamedStoredProcedureQuery(name = "Productor.create", procedureName = "FV_ADM_CREATE_USER", parameters = {
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TIPO_USUARIO_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_PAIS_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMBRE_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "APELLIDO_PATERNO_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "APELLIDO_MATERNO_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "CORREO_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "CONTRASENA_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "RUT_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "NUMER_IDENTIFICADOR_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "DIRECCION_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "CODIGO_POSTAL_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "TELEFONO_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_CONTRATO_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_RESULT_OUT", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class)
+    }),
+})
 public class ProductorEntity implements Serializable {
     @Id
     @Column(name = "ID_PRODUCTOR")
@@ -30,7 +52,7 @@ public class ProductorEntity implements Serializable {
     @Column(name = "DIRECCION")
     private String direccion;
     @Column(name = "CODIGO_POSTAL")
-    private String codigoPostal;
+    private Integer codigoPostal;
     @Column(name = "TELEFONO")
     private Integer telefono;
     @Column(name = "ID_CONTRATO")
@@ -117,11 +139,11 @@ public class ProductorEntity implements Serializable {
         this.direccion = direccion;
     }
 
-    public String getCodigoPostal() {
+    public Integer getCodigoPostal() {
         return codigoPostal;
     }
 
-    public void setCodigoPostal(String codigoPostal) {
+    public void setCodigoPostal(Integer codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
 

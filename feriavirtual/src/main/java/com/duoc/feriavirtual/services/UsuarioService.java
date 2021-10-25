@@ -11,6 +11,7 @@ import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.exceptions.UserNotFoundException;
 import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.UsuarioModel;
+import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.models.modelResponse.LoginResponse;
 import com.duoc.feriavirtual.repositories.UsuarioRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
@@ -69,8 +70,10 @@ public class UsuarioService {
         }
     }
     
-    public Boolean createUser(GeneralUsers usuario) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+    public IdResponse createUser(GeneralUsers usuario) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
         
+            LOGGER.debug("CREANDO UN USUARIO");
+            IdResponse id = new IdResponse();
 
             Map<String, Object> resultCreateUser = usuarioRepository.createUser(
                 usuario.getIdTipoUsuario(), 
@@ -88,12 +91,28 @@ public class UsuarioService {
                 null
             );
 
-            System.out.println(resultCreateUser);
+            Integer statusResultOut = (Integer) resultCreateUser.get("STATUS_RESULT_OUT");
+            Integer idResultOut = (Integer) resultCreateUser.get("ID_RESULT_OUT");
 
-            return true;
-           
+            LOGGER.debug("statusResultOut: " + statusResultOut);
+            LOGGER.debug("idResultOut: " + idResultOut);
 
-        
+            if(statusResultOut == -1){
+                throw new InvalidModelException("El modelo ingresado es invalido");
+            }
+            if(statusResultOut == -2){
+                throw new InvalidModelException("El servicio con el pl ha fallado");
+            }
+
+            if(statusResultOut == 0){
+                throw new NotFoundComponentFeriaVirtualException("El usuario ya se encuentra registrado");
+            }
+
+            if(statusResultOut == 1){
+                id.setId(idResultOut);
+            }
+
+            return id;
     }
 
 }

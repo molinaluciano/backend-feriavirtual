@@ -8,7 +8,10 @@ import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.models.ErrorDetail;
 import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.UsuarioModel;
+import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.models.modelResponse.LoginResponse;
+import com.duoc.feriavirtual.services.ProductorService;
+import com.duoc.feriavirtual.services.TransportistaService;
 import com.duoc.feriavirtual.services.UsuarioService;
 
 import org.slf4j.Logger;
@@ -29,7 +32,10 @@ public class UsuarioController {
 
     @Autowired
     UsuarioService usuarioService;
-
+    @Autowired
+    ProductorService productorService;
+    @Autowired
+    TransportistaService transportistaService;
    
     @PostMapping(value = "/login")
     public ResponseEntity<?> postMethodName(@RequestBody UsuarioModel usuario) {
@@ -68,18 +74,35 @@ public class UsuarioController {
     @PostMapping(value = "/create-user")
     public ResponseEntity<?> postNewUser(@RequestBody GeneralUsers newUser) {
         try {
-            System.out.println(newUser.toString());
+            System.out.println("ID TIPO USUARIO: "+ newUser.getIdTipoUsuario());
             System.out.println(newUser.getIdContrato());
             Integer idTypeUser = newUser.getIdTipoUsuario();
+
+            IdResponse idResultCreation = null;
             
+
             if(idTypeUser >= 1 && idTypeUser <= 5){
-                usuarioService.createUser(newUser);
+                idResultCreation = usuarioService.createUser(newUser);
+            }else if(idTypeUser == 6 ){
+                idResultCreation = productorService.createUser(newUser);
+            }else if(idTypeUser == 7 ){
+                idResultCreation = transportistaService.createUser(newUser);
+            }else{
+                throw new InvalidModelException("El id del tipo de usuario a crear es invalido");
             }
-            return new ResponseEntity<Boolean>(true, HttpStatus.ACCEPTED);
-        } catch (Exception exception) {
+
+            LOGGER.debug("idResultCreation:" + idResultCreation);
+            return new ResponseEntity<IdResponse>(idResultCreation, HttpStatus.ACCEPTED);
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
             return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        // catch (Exception exception) {
+        //     return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+        //             HttpStatus.INTERNAL_SERVER_ERROR);
+        // }
 
     }
 }

@@ -30,6 +30,20 @@ import javax.persistence.Column;
             @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_RESULT_OUT", type = Integer.class),
             @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class)
     }),
+    @NamedStoredProcedureQuery(name = "Productor.update", procedureName = "FV_ADM_UPDATE_USER", parameters = {
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "NOMBRE_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "APELLIDO_PATERNO_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "APELLIDO_MATERNO_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "CORREO_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "CONTRASENA_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "RUT_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "NUMERO_IDENTIFICADOR_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "DIRECCION_IN", type = String.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "CODIGO_POSTAL_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "TELEFONO_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_CONTRATO_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class)
+    }),
 })
 public class ProductorEntity implements Serializable {
     @Id

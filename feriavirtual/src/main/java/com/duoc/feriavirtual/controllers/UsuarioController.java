@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -105,4 +106,24 @@ public class UsuarioController {
         // }
 
     }
+    
+    @PutMapping(value = "/update-user")
+    public ResponseEntity<?> updateUser(@RequestBody GeneralUsers user) {
+        try {
+            
+            Boolean resultUpdate = productorService.updateUser(user);
+            
+            return new ResponseEntity<Boolean>(resultUpdate, HttpStatus.OK);
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+            HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 }

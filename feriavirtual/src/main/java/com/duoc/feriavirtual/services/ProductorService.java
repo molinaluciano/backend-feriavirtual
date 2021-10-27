@@ -89,5 +89,34 @@ public class ProductorService {
         return id;  
 }
 
+    public Boolean updateUser(GeneralUsers usuario) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        LOGGER.debug("ACTUALIZANDO UN USUARIO");
+        LOGGER.debug("CORREO_IN=" + usuario.getCorreo());
+
+        Integer resultUpdateUser = productorRepository.updateUser(     
+            usuario.getNombre(), 
+            usuario.getApellidoPaterno(), 
+            usuario.getApellidoMaterno(), 
+            usuario.getCorreo(), 
+            usuario.getContrasena(), 
+            usuario.getRut(), 
+            usuario.getNumeroIdentificador(), 
+            usuario.getDireccion(), 
+            usuario.getCodigoPostal(), 
+            usuario.getTelefono(), 
+            usuario.getIdContrato()
+        );
+        LOGGER.debug("resultUpdateUser=" + resultUpdateUser);
+
+        if(resultUpdateUser == 1){
+            return true;
+        }else if(resultUpdateUser == -1){
+            throw new NotFoundComponentFeriaVirtualException("Usuario a editar no encontrado");
+        }else if(resultUpdateUser == 0){
+            throw new NotFoundComponentFeriaVirtualException("Contrato ingresado no disponible");
+        }else{
+            throw new InvalidModelException("Error - PL - FV_ADM_UPDATE_USER");
+        }
+    }
 
 }

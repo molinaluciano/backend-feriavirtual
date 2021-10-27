@@ -31,5 +31,11 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
         @Param("ID_CONTRATO_IN") Integer idContrato    
     );
 
+    @Procedure(name = "Usuario.delete")
+    Integer deleteUser(
+        @Param("ID_TIPO_USUARIO_IN") Integer idTipoUsuario, 
+        @Param("ID_USUARIO_IN") Integer idUsuario
+    );
+
     List<UsuarioEntity> findByidTipoUsuario (Integer idTipoUsuario);
 }

@@ -115,4 +115,28 @@ public class UsuarioService {
             return id;
     }
 
+    public Boolean deleteUser(GeneralUsers usuario) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        
+        LOGGER.debug("ELIMINANDO UN USUARIO");
+      
+        Integer resultDeleteUser = usuarioRepository.deleteUser(
+            usuario.getIdTipoUsuario(),
+            usuario.getIdUsuario().intValue()
+        );
+
+       
+
+        LOGGER.debug("resultDeleteUser: " + resultDeleteUser);
+        if(resultDeleteUser == 1){
+            return true;
+        }else  if(resultDeleteUser == -1){
+            throw new InvalidModelException("El tipo de usuario ingresado no es valido");
+        }else  if(resultDeleteUser == 0){
+            throw new NotFoundComponentFeriaVirtualException("El usuario no se encuentra registrado");
+        } else{
+            throw new InvalidModelException("Error - PL - FV_ADM_DELETE_USER");
+        }
+
+}
+
 }

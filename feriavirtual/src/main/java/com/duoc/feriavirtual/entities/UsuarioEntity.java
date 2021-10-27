@@ -37,6 +37,11 @@ import javax.persistence.Column;
                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_RESULT_OUT", type = Integer.class),
                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class)
         }),
+        @NamedStoredProcedureQuery(name = "Usuario.delete", procedureName = "FV_ADM_DELETE_USER", parameters = {
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_USUARIO_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TIPO_USUARIO_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class)
+    }),
 })
 public class UsuarioEntity implements Serializable {
     @Id

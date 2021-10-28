@@ -2,7 +2,10 @@ package com.duoc.feriavirtual.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +13,13 @@ import java.util.Date;
 import javax.persistence.Column;
 
 @Entity(name = "SOLICITUD")
+@NamedStoredProcedureQueries({
+    @NamedStoredProcedureQuery(name = "Solicitud.cambiar_estado", procedureName = "FV_ADM_UPDATE_REQUEST_STATE", parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_SOLICITUD_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_ESTADO_SOLICITUD_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class)
+}),
+})
 public class SolicitudEntity implements Serializable {
     @Id
     @Column(name = "ID_SOLICITUD")
@@ -18,10 +28,21 @@ public class SolicitudEntity implements Serializable {
     private Integer idUsuario;
     @Column(name = "ID_ESTADO_SOLICITUD")
     private Integer idEstadoSolicitud;
+    @Column(name = "ID_TIPO_SOLICITUD")
+    private Integer idTipoSolicitud;
     @Column(name = "PRODUCTOR_SELECCIONADO")
     private Integer productorSeleccionado;
     @Column(name = "FECHA_PUBLICACION")
     private Date fechaPublicacion;
+
+    
+
+    public Integer getIdTipoSolicitud() {
+        return idTipoSolicitud;
+    }
+    public void setIdTipoSolicitud(Integer idTipoSolicitud) {
+        this.idTipoSolicitud = idTipoSolicitud;
+    }
     public Long getIdSolicitud() {
         return idSolicitud;
     }

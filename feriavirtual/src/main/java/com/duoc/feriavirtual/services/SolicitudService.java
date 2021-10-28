@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
 import com.duoc.feriavirtual.entities.SolicitudEntity;
+import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.repositories.SolicitudRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
@@ -35,4 +36,25 @@ public class SolicitudService {
             throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
         }
     }
+    
+    public Boolean updateStatusRequest(SolicitudEntity solicitud) throws  NotFoundComponentFeriaVirtualException, InvalidModelException{
+      
+           
+        Integer resultUpdate =  solicitudRepository.updateStatusRequest(solicitud.getIdSolicitud().intValue(), solicitud.getIdEstadoSolicitud());
+        LOGGER.debug("resultUpdate: " + resultUpdate);
+
+        if(resultUpdate == 1){
+            return true;
+        }else  if(resultUpdate == -1){
+            throw new InvalidModelException("El estado de solicitud es invalido");
+        }else  if(resultUpdate == 0){
+            throw new NotFoundComponentFeriaVirtualException("Solicitud no encontrada");
+        } else{
+            throw new InvalidModelException("Error - PL - FV_ADM_DELETE_USER");
+        }
+            
+        
+    }
+
+
 }

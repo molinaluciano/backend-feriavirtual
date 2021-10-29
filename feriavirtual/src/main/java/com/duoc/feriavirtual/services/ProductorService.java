@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
+import com.duoc.feriavirtual.entities.ContratoEntity;
 import com.duoc.feriavirtual.entities.ProductorEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.exceptions.UserNotFoundException;
 import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.modelResponse.IdResponse;
+import com.duoc.feriavirtual.repositories.ContratoRepository;
 import com.duoc.feriavirtual.repositories.ProductorRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
 
@@ -24,6 +26,8 @@ public class ProductorService {
 
     @Autowired
     ProductorRepository productorRepository;
+    @Autowired
+    ContratoRepository contratoRepository;
     @Autowired
     CommonConverter commonConverter;
     @Autowired
@@ -118,5 +122,24 @@ public class ProductorService {
             throw new InvalidModelException("Error - PL - FV_ADM_UPDATE_USER");
         }
     }
+
+    public IdResponse createContract(ContratoEntity contrato) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        LOGGER.debug("CREANDO UN CONTRATO");
+        IdResponse id = new IdResponse();
+        Map<String, Object> resultCreate = contratoRepository.createContract(contrato.getDescripcion(), contrato.getFirmas(), contrato.getIdEstadoContrato());
+        
+        Integer statusOut = (Integer) resultCreate.get("STATUS_RESULT_OUT");
+        Integer idContratoOut = (Integer) resultCreate.get("ID_RESULT_OUT");
+        id.setId(idContratoOut);
+
+        if(statusOut == 1){
+            return id;
+        }else if(statusOut == 0){
+            throw new NotFoundComponentFeriaVirtualException("Estado de contrato no disponible o modelo ingresado invalido");
+        }else{
+            throw new InvalidModelException("Error - PL - FV_ADM_UPDATE_USER");
+        }
+    }
+
 
 }

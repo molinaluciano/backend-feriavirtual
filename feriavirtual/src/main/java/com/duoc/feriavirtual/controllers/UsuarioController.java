@@ -3,6 +3,7 @@ package com.duoc.feriavirtual.controllers;
 import java.util.List;
 
 import com.duoc.feriavirtual.entities.UsuarioEntity;
+import com.duoc.feriavirtual.entities.VentaEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.models.ErrorDetail;
@@ -145,5 +146,26 @@ public class UsuarioController {
         }
 
     }
+    
+    // PETICIONES COMO ADMINISTRADOR
+    @PutMapping(value = "/update-state-sale")
+    public ResponseEntity<?> updateStateSale(@RequestBody VentaEntity venta) {
+        try {
+            System.out.println("Actualizando estado de una venta");
+  
+            Boolean resultUpdated = usuarioService.updateStatusSale(venta);          
+            return new ResponseEntity<Boolean>(resultUpdated, HttpStatus.CREATED);
+            
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+            HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
+    }
+    
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
 import com.duoc.feriavirtual.entities.UsuarioEntity;
+import com.duoc.feriavirtual.entities.VentaEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.InvalidModelUsuario;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
@@ -14,6 +15,7 @@ import com.duoc.feriavirtual.models.UsuarioModel;
 import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.models.modelResponse.LoginResponse;
 import com.duoc.feriavirtual.repositories.UsuarioRepository;
+import com.duoc.feriavirtual.repositories.VentaRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
 
 import org.slf4j.Logger;
@@ -27,6 +29,8 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    VentaRepository ventaRepository;
     @Autowired
     CommonConverter commonConverter;
     @Autowired
@@ -135,6 +139,26 @@ public class UsuarioService {
             throw new NotFoundComponentFeriaVirtualException("El usuario no se encuentra registrado");
         } else{
             throw new InvalidModelException("Error - PL - FV_ADM_DELETE_USER");
+        }
+
+}
+
+    // PETICIONES COMO ADMINISTRADOR
+    public Boolean updateStatusSale(VentaEntity venta) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        
+        LOGGER.debug("AACTUALIZANDO EL ESTADO DE UNA VENTA");
+      
+        Integer resultUpdateSale = ventaRepository.updateStateSale(venta.getIdVenta(), venta.getIdEstadoVenta());       
+        LOGGER.debug("resultUpdateSale: " + resultUpdateSale);
+
+        if(resultUpdateSale == 1){
+            return true;
+        }else  if(resultUpdateSale == -1){
+            throw new InvalidModelException("El estado de la venta es invalido");
+        }else  if(resultUpdateSale == 0){
+            throw new NotFoundComponentFeriaVirtualException("La venta no se ha encontrado ");
+        } else{
+            throw new InvalidModelException("Error - PL - FV_ADM_UPDATE_SALE_STATES");
         }
 
 }

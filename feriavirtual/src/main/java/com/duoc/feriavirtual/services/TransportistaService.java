@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
+import com.duoc.feriavirtual.entities.CamionEntity;
 import com.duoc.feriavirtual.entities.TransportistaEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.exceptions.UserNotFoundException;
 import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.modelResponse.IdResponse;
+import com.duoc.feriavirtual.repositories.CamionRepository;
 import com.duoc.feriavirtual.repositories.TransportistaRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
 
@@ -24,6 +26,8 @@ public class TransportistaService {
 
     @Autowired
     TransportistaRepository transportistaRepository;
+    @Autowired
+    CamionRepository camionRepository;
     @Autowired
     CommonConverter commonConverter;
     @Autowired
@@ -83,6 +87,43 @@ public class TransportistaService {
 
         if(statusResultOut == 1){
             id.setId(idResultOut);
+        }
+
+        return id;  
+
+       
+}
+    
+
+    public IdResponse createTruck(CamionEntity truck) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        
+        LOGGER.debug("CREANDO UN CAMION");
+        IdResponse id = new IdResponse();
+
+        Map<String, Object> resultCreateTruck = camionRepository.createTruck(truck.getPatente(), truck.getModelo(), truck.getMarca(), truck.getRevisionTecnica(), truck.getDisponibilidad(), truck.getIdTipoCamion(), truck.getIdTamanoCamion(), truck.getIdTransportista());
+
+        
+        Integer statusResultOut = (Integer) resultCreateTruck.get("STATUS_RESULT_OUT");
+        Integer idResultOut = (Integer) resultCreateTruck.get("ID_RESULT_OUT");
+
+        LOGGER.debug("statusResultOut: " + statusResultOut);
+        LOGGER.debug("idResultOut: " + idResultOut);
+        
+        
+        if(statusResultOut == -4){
+            throw new InvalidModelException("Patente ya registrada");
+        } else if(statusResultOut == -3){
+            throw new NotFoundComponentFeriaVirtualException("Transportista no se ha encontrado");
+        }else if(statusResultOut == -2){
+            throw new NotFoundComponentFeriaVirtualException("Tipo de camion invalido");
+        }else if(statusResultOut == -1){
+            throw new NotFoundComponentFeriaVirtualException("Tamaño de camion invalido");
+        } else if(statusResultOut == 0){
+            throw new InvalidModelException("Modelo ingresado invalido");
+        }else if(statusResultOut == 1){
+            id.setId(idResultOut);
+        }else{
+            throw new InvalidModelException("Error - PL - FV_TRA_CREATE_TRUCK");
         }
 
         return id;  

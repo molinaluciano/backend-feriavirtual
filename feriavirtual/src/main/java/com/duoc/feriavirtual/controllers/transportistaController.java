@@ -2,9 +2,12 @@ package com.duoc.feriavirtual.controllers;
 
 import java.util.List;
 
+import com.duoc.feriavirtual.entities.CamionEntity;
 import com.duoc.feriavirtual.entities.TransportistaEntity;
+import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.models.ErrorDetail;
+import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.services.TransportistaService;
 
 import org.slf4j.Logger;
@@ -14,7 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 public class transportistaController {
@@ -40,4 +44,23 @@ public class transportistaController {
         }
     }
 
+    @PostMapping(value = "/create-truck")
+    public ResponseEntity<?> createTruck(@RequestBody CamionEntity truck) {
+        try {
+
+            IdResponse idResultCreation = null;
+            idResultCreation = transportistaService.createTruck(truck);
+            return new ResponseEntity<IdResponse>(idResultCreation, HttpStatus.CREATED);
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+            HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    
 }

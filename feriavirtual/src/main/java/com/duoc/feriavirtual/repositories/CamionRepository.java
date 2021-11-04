@@ -21,6 +21,18 @@ public interface CamionRepository extends JpaRepository<CamionEntity, Integer> {
         @Param("ID_TAMANO_CAMION_IN") Integer idTamanoCamion,
         @Param("ID_TRANSPORTISTA_IN") Integer idTransportista
     );
+
+    @Procedure(name = "Camion.update")
+    Integer updateTruck(
+        @Param("PATENTE_IN") String patente, 
+        @Param("MODELO_IN") String modelo, 
+        @Param("MARCA_IN") String marca, 
+        @Param("REVISION_TECNICA_IN") Integer revisionTecnica,
+        @Param("DISPONIBILIDAD_IN") Integer disponibilidad,
+        @Param("ID_TIPO_CAMION_IN") Integer idTipoCamion,
+        @Param("ID_TAMANO_CAMION_IN") Integer idTamanoCamion,
+        @Param("ID_TRANSPORTISTA_IN") Integer idTransportista
+    );
     
    
 }

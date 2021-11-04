@@ -25,6 +25,17 @@ import javax.persistence.Column;
             @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_RESULT_OUT", type = Integer.class),
             @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class),
     }),
+    @NamedStoredProcedureQuery(name = "Camion.update", procedureName = "FV_TRA_UPDATE_TRUCK", parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "PATENTE_IN", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "MODELO_IN", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "MARCA_IN", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "REVISION_TECNICA_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "DISPONIBILIDAD_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TIPO_CAMION_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TAMANO_CAMION_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TRANSPORTISTA_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class),
+}),
 })
 public class CamionEntity implements Serializable{
     @Id

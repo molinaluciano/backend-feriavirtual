@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -51,6 +52,23 @@ public class transportistaController {
             IdResponse idResultCreation = null;
             idResultCreation = transportistaService.createTruck(truck);
             return new ResponseEntity<IdResponse>(idResultCreation, HttpStatus.CREATED);
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+            HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    
+    @PutMapping(value = "/update-truck")
+    public ResponseEntity<?> updateTruck(@RequestBody CamionEntity truck) {
+        try {
+            Boolean idResultUpdate = transportistaService.updateTruck(truck);
+            return new ResponseEntity<Boolean>(idResultUpdate, HttpStatus.CREATED);
         }catch (NotFoundComponentFeriaVirtualException exception) {
             return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
         }catch(InvalidModelException exception){

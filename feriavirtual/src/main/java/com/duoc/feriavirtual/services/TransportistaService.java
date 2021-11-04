@@ -131,5 +131,27 @@ public class TransportistaService {
        
 }
 
+    public Boolean updateTruck(CamionEntity truck) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        LOGGER.debug("ACTUALIZANDO UN CAMION");
+
+        Integer resultUpdateTruck = camionRepository.updateTruck(truck.getPatente(), truck.getModelo(), truck.getMarca(), truck.getRevisionTecnica(), truck.getDisponibilidad(), truck.getIdTipoCamion(), truck.getIdTamanoCamion(), truck.getIdTransportista());
+        
+        LOGGER.debug("resultUpdateTruck=" + resultUpdateTruck);
+
+        if(resultUpdateTruck == 1){
+            return true;
+        }else if(resultUpdateTruck == -1){
+            throw new NotFoundComponentFeriaVirtualException("Tamaño de camion invalido");
+        }else if(resultUpdateTruck == -2){
+            throw new NotFoundComponentFeriaVirtualException("Camion no encontrado");
+        }else if(resultUpdateTruck == -3){
+            throw new NotFoundComponentFeriaVirtualException("Tipo de camion invalido");
+        } else if(resultUpdateTruck == -4){
+            throw new NotFoundComponentFeriaVirtualException("Transportista no encontrado");
+        }else{
+            throw new InvalidModelException("Error - PL - FV_TRA_UPDATE_TRUCK");
+        }
+    }
+
 
 }

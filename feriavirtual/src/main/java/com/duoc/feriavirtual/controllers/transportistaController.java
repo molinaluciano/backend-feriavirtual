@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,6 +71,23 @@ public class transportistaController {
         try {
             Boolean idResultUpdate = transportistaService.updateTruck(truck);
             return new ResponseEntity<Boolean>(idResultUpdate, HttpStatus.CREATED);
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+            HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    
+    @DeleteMapping(value = "/delete-truck/{id}")
+    public ResponseEntity<?> deleteTruck(@PathVariable Integer id) {
+        try {
+            Boolean idResultUpdate = transportistaService.deleteTruck(id);
+            return new ResponseEntity<Boolean>(idResultUpdate, HttpStatus.OK);
         }catch (NotFoundComponentFeriaVirtualException exception) {
             return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
         }catch(InvalidModelException exception){

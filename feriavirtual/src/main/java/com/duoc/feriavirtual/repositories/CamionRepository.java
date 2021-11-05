@@ -34,5 +34,10 @@ public interface CamionRepository extends JpaRepository<CamionEntity, Integer> {
         @Param("ID_TRANSPORTISTA_IN") Integer idTransportista
     );
     
+    @Procedure(name = "Camion.delete")
+    Integer deleteTruck(
+        @Param("ID_CAMION_IN") Integer idCamion
+    );
+    
    
 }

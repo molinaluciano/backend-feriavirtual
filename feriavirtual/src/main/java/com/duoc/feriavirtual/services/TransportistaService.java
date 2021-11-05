@@ -153,5 +153,21 @@ public class TransportistaService {
         }
     }
 
+    public Boolean deleteTruck(Integer id) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        LOGGER.debug("ELIMINANDO UN CAMION");
+
+        Integer resultDeleteTruck = camionRepository.deleteTruck(id);
+        
+        LOGGER.debug("resultDeleteTruck=" + resultDeleteTruck);
+
+        if(resultDeleteTruck == 1){
+            return true;
+        }else if(resultDeleteTruck == 0){
+            throw new NotFoundComponentFeriaVirtualException("El camion no se ha encontrado");
+        }else{
+            throw new InvalidModelException("Error - PL - FV_TRA_DELETE_TRUCK");
+        }
+    }
+
 
 }

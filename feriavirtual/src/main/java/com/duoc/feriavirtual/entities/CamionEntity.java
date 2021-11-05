@@ -35,7 +35,11 @@ import javax.persistence.Column;
         @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TAMANO_CAMION_IN", type = Integer.class),
         @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TRANSPORTISTA_IN", type = Integer.class),
         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class),
-}),
+    }),
+    @NamedStoredProcedureQuery(name = "Camion.delete", procedureName = "FV_TRA_DELETE_TRUCK", parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_CAMION_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class),
+    }),
 })
 public class CamionEntity implements Serializable{
     @Id

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
 import com.duoc.feriavirtual.entities.CamionEntity;
+import com.duoc.feriavirtual.entities.DetalleSubastaEntity;
 import com.duoc.feriavirtual.entities.TransportistaEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
@@ -12,6 +13,7 @@ import com.duoc.feriavirtual.exceptions.UserNotFoundException;
 import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.repositories.CamionRepository;
+import com.duoc.feriavirtual.repositories.DetalleSubastaRepository;
 import com.duoc.feriavirtual.repositories.TransportistaRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
 
@@ -28,6 +30,8 @@ public class TransportistaService {
     TransportistaRepository transportistaRepository;
     @Autowired
     CamionRepository camionRepository;
+    @Autowired
+    DetalleSubastaRepository detalleSubastaRepository;
     @Autowired
     CommonConverter commonConverter;
     @Autowired
@@ -169,5 +173,36 @@ public class TransportistaService {
         }
     }
 
+    public IdResponse auctionParticipate(DetalleSubastaEntity detalleSubasta) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        
+        LOGGER.debug("PARTICIPANDO EN UNA SUBASTA");
+        IdResponse id = new IdResponse();
+
+        Map<String, Object> resultParticipate = detalleSubastaRepository.auctionParticipate(detalleSubasta.getIdSubasta() ,  detalleSubasta.getIdCamion() , detalleSubasta.getPrecio());
+
+        
+        Integer statusResultOut = (Integer) resultParticipate.get("STATUS_RESULT_OUT");
+        Integer idResultOut = (Integer) resultParticipate.get("ID_RESULT_OUT");
+
+        LOGGER.debug("statusResultOut: " + statusResultOut);
+        LOGGER.debug("idResultOut: " + idResultOut);
+        
+        
+        if(statusResultOut == -2){
+            throw new InvalidModelException("La subasta fue realizada previamente");
+        }else if(statusResultOut == -1){
+            throw new NotFoundComponentFeriaVirtualException("Subasta no se ha encontrado");
+        } else if(statusResultOut == 0){
+            throw new NotFoundComponentFeriaVirtualException("Camion no se ha encontrado");
+        }else if(statusResultOut == 1){
+            id.setId(idResultOut);
+        }else{
+            throw new InvalidModelException("Error - PL - FV_TRA_AUCTION_PARTICIPATION");
+        }
+
+        return id;  
+
+       
+}
 
 }

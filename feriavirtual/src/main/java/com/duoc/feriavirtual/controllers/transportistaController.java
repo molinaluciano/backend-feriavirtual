@@ -3,6 +3,7 @@ package com.duoc.feriavirtual.controllers;
 import java.util.List;
 
 import com.duoc.feriavirtual.entities.CamionEntity;
+import com.duoc.feriavirtual.entities.DetalleSubastaEntity;
 import com.duoc.feriavirtual.entities.TransportistaEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
@@ -88,6 +89,24 @@ public class transportistaController {
         try {
             Boolean idResultUpdate = transportistaService.deleteTruck(id);
             return new ResponseEntity<Boolean>(idResultUpdate, HttpStatus.OK);
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+            HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    
+    @PostMapping(value = "/auction-participate")
+    public ResponseEntity<?> createTruck(@RequestBody DetalleSubastaEntity detalleSubasta) {
+        try {
+            IdResponse idResultCreation = null;
+            idResultCreation = transportistaService.auctionParticipate(detalleSubasta);
+            return new ResponseEntity<IdResponse>(idResultCreation, HttpStatus.CREATED);
         }catch (NotFoundComponentFeriaVirtualException exception) {
             return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
         }catch(InvalidModelException exception){

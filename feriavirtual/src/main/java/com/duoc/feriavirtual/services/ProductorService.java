@@ -137,7 +137,7 @@ public class ProductorService {
         }else if(statusOut == 0){
             throw new NotFoundComponentFeriaVirtualException("Estado de contrato no disponible o modelo ingresado invalido");
         }else{
-            throw new InvalidModelException("Error - PL - FV_ADM_UPDATE_USER");
+            throw new InvalidModelException("Error - PL - FV_ADM_CREATE_CONTRACT");
         }
     }
 

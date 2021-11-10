@@ -7,6 +7,7 @@ import com.duoc.feriavirtual.entities.VentaEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.models.ErrorDetail;
+import com.duoc.feriavirtual.models.FinishSale;
 import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.UsuarioModel;
 import com.duoc.feriavirtual.models.modelResponse.IdResponse;
@@ -155,6 +156,26 @@ public class UsuarioController {
   
             Boolean resultUpdated = usuarioService.updateStatusSale(venta);          
             return new ResponseEntity<Boolean>(resultUpdated, HttpStatus.CREATED);
+            
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+            HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    
+    @PutMapping(value = "/finish-sale")
+    public ResponseEntity<?> finishSale(@RequestBody FinishSale venta) {
+        try {
+            System.out.println("Finalizando una venta");
+  
+            Boolean resultUpdated = usuarioService.finishSale(venta);          
+            return new ResponseEntity<Boolean>(resultUpdated, HttpStatus.OK);
             
         }catch (NotFoundComponentFeriaVirtualException exception) {
             return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);

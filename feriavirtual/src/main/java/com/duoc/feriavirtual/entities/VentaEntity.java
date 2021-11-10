@@ -18,6 +18,11 @@ import javax.persistence.Column;
             @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_ESTADO_VENTA_IN", type = Integer.class),
             @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class),
     }),
+    @NamedStoredProcedureQuery(name = "Venta.finishSale", procedureName = "FV_FINISH_SALE", parameters = {
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_VENTA_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "RESPONSE_CODE_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class),
+    }),
 })
 public class VentaEntity implements Serializable {
     @Id

@@ -15,6 +15,12 @@ public interface VentaRepository extends JpaRepository<VentaEntity, Long> {
         @Param("ID_VENTA_IN") Integer idVenta, 
         @Param("ID_ESTADO_VENTA_IN") Integer idEstadoVenta
     );
+
+    @Procedure(name = "Venta.finishSale")
+    Integer finishSale(
+        @Param("ID_VENTA_IN") Integer idVenta, 
+        @Param("RESPONSE_CODE_IN") Integer responseCode
+    );
     
    
 }

@@ -10,6 +10,7 @@ import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.InvalidModelUsuario;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.exceptions.UserNotFoundException;
+import com.duoc.feriavirtual.models.FinishSale;
 import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.UsuarioModel;
 import com.duoc.feriavirtual.models.modelResponse.IdResponse;
@@ -160,6 +161,25 @@ public class UsuarioService {
             throw new NotFoundComponentFeriaVirtualException("La venta no se ha encontrado ");
         } else{
             throw new InvalidModelException("Error - PL - FV_ADM_UPDATE_SALE_STATES");
+        }
+
+}
+    
+    public Boolean finishSale(FinishSale venta) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+    
+        LOGGER.debug("FINALIZAR EL ESTADO DE UNA VENTA");
+      
+        Integer resultUpdateSale = ventaRepository.finishSale(venta.getIdVenta(), venta.getResponseCode());       
+        LOGGER.debug("resultUpdateSale: " + resultUpdateSale);
+
+        if(resultUpdateSale == 1){
+            return true;
+        }else  if(resultUpdateSale == 0){
+            throw new InvalidModelException("Transaccion rechazada");
+        }else  if(resultUpdateSale == -1){
+            throw new NotFoundComponentFeriaVirtualException("La venta no se ha encontrado ");
+        } else{
+            throw new InvalidModelException("Error - PL - FV_FINISH_SALE");
         }
 
 }

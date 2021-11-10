@@ -1,11 +1,14 @@
 package com.duoc.feriavirtual.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
 import com.duoc.feriavirtual.entities.SolicitudEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
+import com.duoc.feriavirtual.models.GeneralRequestAndDetail;
+import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.repositories.SolicitudRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
 
@@ -55,6 +58,41 @@ public class SolicitudService {
             
         
     }
+
+    public IdResponse createRequestAndDetail(GeneralRequestAndDetail generalRequestAndDetail) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        
+        LOGGER.debug("CREANDO UNA SOLICITUD");
+        IdResponse id = new IdResponse();
+
+        Map<String, Object> resultCreateRequest = solicitudRepository.createRequestAndDetail(generalRequestAndDetail.getIdUsuario() , generalRequestAndDetail.getIdTipoSolicitud(), generalRequestAndDetail.getKilos() , generalRequestAndDetail.getIdFruta() ,generalRequestAndDetail.getIdCalidad());
+
+        Integer statusResultOut = (Integer) resultCreateRequest.get("STATUS_RESULT_OUT");
+        Integer idRequestDetailResultOut = (Integer) resultCreateRequest.get("ID_REQUEST_DETAIL_RESULT_OUT");
+        Integer idResultOut = (Integer) resultCreateRequest.get("ID_RESULT_OUT");
+
+        LOGGER.debug("statusResultOut: " + statusResultOut);
+        LOGGER.debug("idRequestDetailResultOut: " + idRequestDetailResultOut);
+        LOGGER.debug("idResultOut: " + idResultOut);
+
+        if(statusResultOut == 1){
+            id.setId(idResultOut);
+        }else if(statusResultOut == 0){
+            throw new InvalidModelException("El modelo ingresado es invalido");
+        }else if(statusResultOut == -1){
+            throw new NotFoundComponentFeriaVirtualException("Tipo de solicitud no encontrada");
+        }else if(statusResultOut == -2){
+            throw new NotFoundComponentFeriaVirtualException("Usuario no encontrado");
+        }else if(statusResultOut == -3){
+            throw new NotFoundComponentFeriaVirtualException("Fruta no encontrada");
+        }else if(statusResultOut == -4){
+            throw new NotFoundComponentFeriaVirtualException("Calidad no encontrada");
+        }else {
+            throw new InvalidModelException("Error - PL - FV_CREATE_PURCHASE_REQUEST");
+
+        }
+
+        return id;
+}
 
 
 }

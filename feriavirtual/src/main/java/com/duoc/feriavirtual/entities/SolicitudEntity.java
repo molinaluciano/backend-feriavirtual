@@ -19,6 +19,16 @@ import javax.persistence.Column;
         @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_ESTADO_SOLICITUD_IN", type = Integer.class),
         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class)
 }),
+    @NamedStoredProcedureQuery(name = "Solicitud.crear_solicitud_y_detalle", procedureName = "FV_CREATE_PURCHASE_REQUEST", parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_USUARIO_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_TIPO_SOLICITUD_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "KILOS_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_FRUTA_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "CALIDAD_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_RESULT_OUT", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_REQUEST_DETAIL_RESULT_OUT", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class)
+}),
 })
 public class SolicitudEntity implements Serializable {
     @Id

@@ -142,7 +142,8 @@ public class UsuarioService {
         }
 
 }
-
+    // PETICIONES COMO CLINTE
+  
     // PETICIONES COMO ADMINISTRADOR
     public Boolean updateStatusSale(VentaEntity venta) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
         

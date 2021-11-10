@@ -6,6 +6,8 @@ import com.duoc.feriavirtual.entities.SolicitudEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.models.ErrorDetail;
+import com.duoc.feriavirtual.models.GeneralRequestAndDetail;
+import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.services.SolicitudService;
 
 import org.slf4j.Logger;
@@ -62,4 +64,24 @@ public class SolicitudController {
         }
     }
 
+      
+    @PostMapping(value = "/create-request-and-detail")
+    public ResponseEntity<?> postNewUser(@RequestBody GeneralRequestAndDetail generalRequestAndDetail) {
+        try {
+        IdResponse idResultCreation = null;
+        idResultCreation = solicitudService.createRequestAndDetail(generalRequestAndDetail);
+        LOGGER.debug("idResultCreation:" + idResultCreation);
+        return new ResponseEntity<IdResponse>(idResultCreation, HttpStatus.CREATED);
+        }catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }catch(InvalidModelException exception){
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+            HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    
 }

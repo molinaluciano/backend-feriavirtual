@@ -6,6 +6,7 @@ import java.util.Map;
 import com.duoc.feriavirtual.converters.CommonConverter;
 import com.duoc.feriavirtual.entities.ContratoEntity;
 import com.duoc.feriavirtual.entities.ProductorEntity;
+import com.duoc.feriavirtual.entities.ProductorSolicitudEntity;
 import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.exceptions.UserNotFoundException;
@@ -13,6 +14,7 @@ import com.duoc.feriavirtual.models.GeneralUsers;
 import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.repositories.ContratoRepository;
 import com.duoc.feriavirtual.repositories.ProductorRepository;
+import com.duoc.feriavirtual.repositories.ProductorSolicitudRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
 
 import org.slf4j.Logger;
@@ -28,6 +30,8 @@ public class ProductorService {
     ProductorRepository productorRepository;
     @Autowired
     ContratoRepository contratoRepository;
+    @Autowired
+    ProductorSolicitudRepository productorSolicitudRepository;
     @Autowired
     CommonConverter commonConverter;
     @Autowired
@@ -138,6 +142,27 @@ public class ProductorService {
             throw new NotFoundComponentFeriaVirtualException("Estado de contrato no disponible o modelo ingresado invalido");
         }else{
             throw new InvalidModelException("Error - PL - FV_ADM_CREATE_CONTRACT");
+        }
+    }
+
+    public Boolean participateInRequest(ProductorSolicitudEntity productorSolicitudEntity) throws NotFoundComponentFeriaVirtualException, InvalidModelException {
+        LOGGER.debug("PARTICIPAR EN UN SOLICITUD");
+        LOGGER.debug("SOLICITUD=" + productorSolicitudEntity.getIdSolicitud());
+        LOGGER.debug("PRODUCTOR=" + productorSolicitudEntity.getIdProductor());
+        LOGGER.debug("PRECIO=" + productorSolicitudEntity.getPrecio());
+
+        Integer resultCreateParticipateInRequest = productorSolicitudRepository.requestParticipation
+        (productorSolicitudEntity.getIdSolicitud() ,productorSolicitudEntity.getIdProductor(), productorSolicitudEntity.getPrecio());
+        LOGGER.debug("resultCreateParticipateInRequest=" + resultCreateParticipateInRequest);
+
+        if(resultCreateParticipateInRequest == 1){
+            return true;
+        }else if(resultCreateParticipateInRequest == -1){
+            throw new NotFoundComponentFeriaVirtualException("Productor no encontrado");
+        }else if(resultCreateParticipateInRequest == 0){
+            throw new NotFoundComponentFeriaVirtualException("Solicitud no disponible");
+        }else{
+            throw new InvalidModelException("Error - PL - FV_PRO_REQUEST_PARTICIPATION");
         }
     }
 

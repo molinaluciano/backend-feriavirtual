@@ -146,7 +146,7 @@ public class UsuarioController {
         }
 
     }
-    
+  
     // PETICIONES COMO ADMINISTRADOR
     @PutMapping(value = "/update-state-sale")
     public ResponseEntity<?> updateStateSale(@RequestBody VentaEntity venta) {

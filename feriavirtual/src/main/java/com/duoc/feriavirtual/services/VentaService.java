@@ -1,19 +1,10 @@
 package com.duoc.feriavirtual.services;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
-import com.duoc.feriavirtual.entities.DetalleSolicitudEntity;
-import com.duoc.feriavirtual.entities.SolicitudEntity;
 import com.duoc.feriavirtual.entities.VentaEntity;
-import com.duoc.feriavirtual.exceptions.InvalidModelException;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
-import com.duoc.feriavirtual.models.GeneralRequestAndDetail;
-import com.duoc.feriavirtual.models.modelResponse.IdResponse;
-import com.duoc.feriavirtual.repositories.DetalleSolicitudRepository;
-import com.duoc.feriavirtual.repositories.SolicitudRepository;
 import com.duoc.feriavirtual.repositories.VentaRepository;
-import com.duoc.feriavirtual.validators.UsuarioValidator;
 import java.util.List;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

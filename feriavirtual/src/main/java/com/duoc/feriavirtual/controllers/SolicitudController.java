@@ -74,6 +74,33 @@ public class SolicitudController {
     }
   }
 
+  @GetMapping(value = "/detail-requests/{id}")
+  public ResponseEntity<?> getAllDetailrequestsByRequest(
+    @PathVariable Integer id
+  ) {
+    try {
+      LOGGER.debug("VER DETALLES DE SOLICITUD POR SOLICITUD");
+
+      List<DetalleSolicitudEntity> requests = solicitudService.findAllRequestsByIdRequests(
+        id
+      );
+      return new ResponseEntity<List<DetalleSolicitudEntity>>(
+        requests,
+        HttpStatus.OK
+      );
+    } catch (NotFoundComponentFeriaVirtualException exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.NOT_FOUND
+      );
+    } catch (Exception exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   @PutMapping(value = "/update-status-request")
   public ResponseEntity<?> updateStatusRequest(
     @RequestBody SolicitudEntity solicitud

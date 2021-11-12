@@ -129,4 +129,18 @@ public class SolicitudService {
       throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
     }
   }
+
+  public List<DetalleSolicitudEntity> findAllRequestsByIdRequests(
+    Integer idSolicitud
+  )
+    throws NotFoundComponentFeriaVirtualException {
+    try {
+      List<DetalleSolicitudEntity> resultRequests = (List<DetalleSolicitudEntity>) detalleSolicitudRepository.findByIdSolicitud(
+        idSolicitud
+      );
+      return resultRequests;
+    } catch (Exception exception) {
+      throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+    }
+  }
 }

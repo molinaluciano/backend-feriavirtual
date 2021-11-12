@@ -139,7 +139,7 @@ public class UsuarioService {
         }else  if(resultDeleteUser == 0){
             throw new NotFoundComponentFeriaVirtualException("El usuario no se encuentra registrado");
         } else{
-            throw new InvalidModelException("Error - PL - FV_ADM_DELETE_USER");
+            throw new InvalidModelException("No se permite eliminar al usuario debido a que el registro es utilizado en otra seccion");
         }
 
 }

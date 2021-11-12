@@ -203,7 +203,9 @@ public class TransportistaService {
         "El camion no se ha encontrado"
       );
     } else {
-      throw new InvalidModelException("Error - PL - FV_TRA_DELETE_TRUCK");
+      throw new InvalidModelException(
+        "No se puede eliminar el camion debido a que es utilizado en otra seccion"
+      );
     }
   }
 

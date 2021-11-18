@@ -2,8 +2,10 @@ package com.duoc.feriavirtual.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 
@@ -34,7 +36,17 @@ public class VentaEntity implements Serializable {
     private Integer idTipoPago;
     @Column(name = "ID_ESTADO_VENTA")
     private Integer idEstadoVenta;
+    @OneToOne
+    @JoinColumn(name = "ID_VENTA")
+    private DetalleVentaEntity detalleVenta;
     
+  
+    public DetalleVentaEntity getDetalleVenta() {
+        return detalleVenta;
+    }
+    public void setDetalleVenta(DetalleVentaEntity detalleVenta) {
+        this.detalleVenta = detalleVenta;
+    }
     public Integer getIdVenta() {
         return idVenta;
     }

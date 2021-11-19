@@ -5,6 +5,7 @@ package com.duoc.feriavirtual.repositories;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.duoc.feriavirtual.entities.SolicitudEntity;
 
@@ -28,5 +29,7 @@ public interface SolicitudRepository extends JpaRepository<SolicitudEntity, Long
     );
 
     List<SolicitudEntity> findByIdEstadoSolicitud (Integer idEstadoSolicitud);
+   
+    List<SolicitudEntity> findByIdUsuario (Integer idUsuario);
 
 }

@@ -12,6 +12,8 @@ import com.duoc.feriavirtual.repositories.SolicitudRepository;
 import com.duoc.feriavirtual.validators.UsuarioValidator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,19 @@ public class SolicitudService {
 
   @Autowired
   UsuarioValidator usuarioValidator;
+
+  public List<SolicitudEntity> findRequestByIdClient(
+   Integer id
+  )
+    throws NotFoundComponentFeriaVirtualException {
+    try {
+      List<SolicitudEntity> resultRequests =  solicitudRepository.findByIdUsuario(id);
+      return resultRequests;
+    } catch (Exception exception) {
+      throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+    }
+  }
+  
 
   public List<SolicitudEntity> findAllRequest(
    

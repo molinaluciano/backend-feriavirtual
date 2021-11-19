@@ -9,6 +9,8 @@ import com.duoc.feriavirtual.models.GeneralRequestAndDetail;
 import com.duoc.feriavirtual.models.modelResponse.IdResponse;
 import com.duoc.feriavirtual.services.SolicitudService;
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +50,31 @@ public class SolicitudController {
     }
   }
   @GetMapping(value = "/requests/{id}")
-  public ResponseEntity<?> postMethodName(@PathVariable Integer id) {
+  public ResponseEntity<?> getAllRequestByIdStatus(@PathVariable Integer id) {
     LOGGER.debug("CONTROLLER ID:" + id);
     try {
       List<SolicitudEntity> requests = solicitudService.selectRequestsByidStatus(
+        id
+      );
+      return new ResponseEntity<List<SolicitudEntity>>(requests, HttpStatus.OK);
+    } catch (NotFoundComponentFeriaVirtualException exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.NOT_FOUND
+      );
+    } catch (Exception exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+  
+  @GetMapping(value = "/requests-by-client/{id}")
+  public ResponseEntity<?> getRequestByIdClient(@PathVariable Integer id) {
+    LOGGER.debug("CONTROLLER ID:" + id);
+    try {
+      List<SolicitudEntity> requests = solicitudService.findRequestByIdClient(
         id
       );
       return new ResponseEntity<List<SolicitudEntity>>(requests, HttpStatus.OK);

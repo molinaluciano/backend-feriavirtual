@@ -1,6 +1,7 @@
 package com.duoc.feriavirtual.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.duoc.feriavirtual.entities.UsuarioEntity;
 import com.duoc.feriavirtual.entities.VentaEntity;
@@ -58,12 +59,30 @@ public class UsuarioController {
     }
 
     @GetMapping(value = "/select-user/{id}")
-    public ResponseEntity<?> postMethodName(@PathVariable Integer id) {
+    public ResponseEntity<?> selectUSerByIdType(@PathVariable Integer id) {
         LOGGER.debug("CONTROLLER ID:" + id);
         try {
             
             List<UsuarioEntity>  users = usuarioService.selectUsersByIdType(id);
             return new ResponseEntity<List<UsuarioEntity> >(users, HttpStatus.OK);
+        } catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        
+        } catch (InvalidModelException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.BAD_REQUEST);
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping(value = "/select-user-by-id/{id}")
+    public ResponseEntity<?> selectUSerByIdId(@PathVariable Long id) {
+        LOGGER.debug("CONTROLLER ID:" + id);
+        try {
+            
+            Optional<UsuarioEntity>  users = usuarioService.findUserByIdUser(id);
+            return new ResponseEntity<Optional<UsuarioEntity> >(users, HttpStatus.OK);
         } catch (NotFoundComponentFeriaVirtualException exception) {
             return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
         

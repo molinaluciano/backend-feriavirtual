@@ -36,7 +36,7 @@ public class VentaEntity implements Serializable {
     private Integer idTipoPago;
     @Column(name = "ID_ESTADO_VENTA")
     private Integer idEstadoVenta;
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "ID_VENTA")
     private DetalleVentaEntity detalleVenta;
     

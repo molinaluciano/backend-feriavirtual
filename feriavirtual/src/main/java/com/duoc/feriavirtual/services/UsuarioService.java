@@ -2,6 +2,7 @@ package com.duoc.feriavirtual.services;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
 import com.duoc.feriavirtual.entities.UsuarioEntity;
@@ -71,6 +72,18 @@ public class UsuarioService {
             throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
         }
         catch (InvalidModelUsuario exception) {
+            throw new InvalidModelException(exception.getMessage());
+        }
+    }
+    
+    public Optional<UsuarioEntity>  findUserByIdUser(Long idUsuario) throws  NotFoundComponentFeriaVirtualException, InvalidModelException{
+        try {
+           
+            
+            Optional<UsuarioEntity>  resultSelectFindByIdTipoUsuario = usuarioRepository.findByIdUsuario(idUsuario);
+            return resultSelectFindByIdTipoUsuario;
+            
+        } catch (Exception exception) {
             throw new InvalidModelException(exception.getMessage());
         }
     }

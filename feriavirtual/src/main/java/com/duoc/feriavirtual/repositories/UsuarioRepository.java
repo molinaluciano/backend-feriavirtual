@@ -2,6 +2,7 @@ package com.duoc.feriavirtual.repositories;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.duoc.feriavirtual.entities.UsuarioEntity;
 
@@ -38,4 +39,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
     );
 
     List<UsuarioEntity> findByidTipoUsuario (Integer idTipoUsuario);
+
+    Optional<UsuarioEntity> findByIdUsuario (Long idTipoUsuario);
 }

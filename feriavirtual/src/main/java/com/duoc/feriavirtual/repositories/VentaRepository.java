@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
-public interface VentaRepository extends JpaRepository<VentaEntity, Long> {
+public interface VentaRepository extends JpaRepository<VentaEntity, Integer> {
   @Procedure(name = "Venta.updateState")
   Integer updateStateSale(
     @Param("ID_VENTA_IN") Integer idVenta,

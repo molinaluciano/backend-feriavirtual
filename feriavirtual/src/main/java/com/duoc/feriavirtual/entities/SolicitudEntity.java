@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 
@@ -36,7 +37,7 @@ import javax.persistence.Column;
 public class SolicitudEntity implements Serializable {
     @Id
     @Column(name = "ID_SOLICITUD")
-    private Long idSolicitud;
+    private Integer idSolicitud;
     @Column(name = "ID_USUARIO")
     private Integer idUsuario;
     @Column(name = "ID_ESTADO_SOLICITUD")
@@ -51,7 +52,19 @@ public class SolicitudEntity implements Serializable {
     @OneToMany
     @JoinColumn(name = "ID_SOLICITUD")
     private List<DetalleSolicitudEntity> detallesSolicitud;
+    
+    @JoinColumn(name = "ID_SOLICITUD")
+    @OneToOne()
+    private VentaEntity venta;
 
+
+   
+    public VentaEntity getVenta() {
+        return venta;
+    }
+    public void setVenta(VentaEntity venta) {
+        this.venta = venta;
+    }
     public List<DetalleSolicitudEntity> getDetallesSolicitud() {
         return detallesSolicitud;
     }
@@ -64,10 +77,10 @@ public class SolicitudEntity implements Serializable {
     public void setIdTipoSolicitud(Integer idTipoSolicitud) {
         this.idTipoSolicitud = idTipoSolicitud;
     }
-    public Long getIdSolicitud() {
+    public Integer getIdSolicitud() {
         return idSolicitud;
     }
-    public void setIdSolicitud(Long idSolicitud) {
+    public void setIdSolicitud(Integer idSolicitud) {
         this.idSolicitud = idSolicitud;
     }
     public Integer getIdUsuario() {

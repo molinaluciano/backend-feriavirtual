@@ -1,10 +1,14 @@
 package com.duoc.feriavirtual.services;
 
 import com.duoc.feriavirtual.converters.CommonConverter;
+import com.duoc.feriavirtual.entities.DetalleVentaEntity;
 import com.duoc.feriavirtual.entities.VentaEntity;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
+import com.duoc.feriavirtual.repositories.DetalleVentaRepository;
 import com.duoc.feriavirtual.repositories.VentaRepository;
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,8 @@ public class VentaService {
 
   @Autowired
   VentaRepository ventaRepository;
+  @Autowired
+  DetalleVentaRepository detalleVentaRepository;
 
   @Autowired
   CommonConverter commonConverter;
@@ -67,4 +73,26 @@ public class VentaService {
       throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
     }
   }
+
+  // DETALLE VENTAS
+  public List<DetalleVentaEntity> getAllDetailSales()
+  throws NotFoundComponentFeriaVirtualException {
+    try {
+      List<DetalleVentaEntity> resultDetailSales = detalleVentaRepository.findAll();
+      return resultDetailSales;
+    } catch (Exception exception) {
+      throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+    }
+  }
+
+  public Optional<DetalleVentaEntity> getDetailSalesByIdVenta(Integer idVenta)
+  throws NotFoundComponentFeriaVirtualException {
+    try {
+      Optional<DetalleVentaEntity> resultDetailSales = detalleVentaRepository.findByIdVenta(idVenta);
+      return resultDetailSales;
+    } catch (Exception exception) {
+      throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+    }
+  }
+
 }

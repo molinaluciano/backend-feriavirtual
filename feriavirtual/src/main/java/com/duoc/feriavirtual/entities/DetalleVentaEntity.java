@@ -27,6 +27,8 @@ public class DetalleVentaEntity implements Serializable {
     private Date fechaInicio;
     @Column(name = "FECHA_FIN")
     private Date fechaFin;
+  
+  
     public Integer getIdDetalleVenta() {
         return idDetalleVenta;
     }

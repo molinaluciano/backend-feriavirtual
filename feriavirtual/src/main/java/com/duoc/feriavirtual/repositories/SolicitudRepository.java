@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
-public interface SolicitudRepository extends JpaRepository<SolicitudEntity, Long> {
+public interface SolicitudRepository extends JpaRepository<SolicitudEntity, Integer> {
     @Procedure(name = "Solicitud.cambiar_estado")
     Integer updateStatusRequest(
         @Param("ID_SOLICITUD_IN") Integer idSolicitud, 

@@ -1,10 +1,13 @@
 package com.duoc.feriavirtual.controllers;
 
+import com.duoc.feriavirtual.entities.DetalleVentaEntity;
 import com.duoc.feriavirtual.entities.VentaEntity;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.models.ErrorDetail;
 import com.duoc.feriavirtual.services.VentaService;
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,4 +103,42 @@ public class VentaController {
       );
     }
   }
+  
+  @GetMapping(value = "/detail-sales")
+  public ResponseEntity<?> getAllDetailSales() {
+    try {
+      List<DetalleVentaEntity> sales = ventaService.getAllDetailSales();
+      return new ResponseEntity<List<DetalleVentaEntity>>(sales, HttpStatus.OK);
+    } catch (NotFoundComponentFeriaVirtualException exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.NOT_FOUND
+      );
+    } catch (Exception exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+  
+  @GetMapping(value = "/detail-sales-by-idsale/{id}")
+  public ResponseEntity<?> getDetailSaleByIdSale(@PathVariable Integer id) {
+    try {
+      Optional<DetalleVentaEntity> sales = ventaService.getDetailSalesByIdVenta(id);
+      return new ResponseEntity<Optional<DetalleVentaEntity>>(sales, HttpStatus.OK);
+    } catch (NotFoundComponentFeriaVirtualException exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.NOT_FOUND
+      );
+    } catch (Exception exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
+
 }

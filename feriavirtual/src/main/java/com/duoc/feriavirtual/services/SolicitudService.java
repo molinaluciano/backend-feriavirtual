@@ -35,6 +35,18 @@ public class SolicitudService {
   @Autowired
   UsuarioValidator usuarioValidator;
 
+  public List<SolicitudEntity> findAllRequest(
+   
+  )
+    throws NotFoundComponentFeriaVirtualException {
+    try {
+      List<SolicitudEntity> resultRequests =  solicitudRepository.findAll();
+      return resultRequests;
+    } catch (Exception exception) {
+      throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+    }
+  }
+  
   public List<SolicitudEntity> selectRequestsByidStatus(
     Integer idEstadoSolicitud
   )
@@ -48,7 +60,7 @@ public class SolicitudService {
       throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
     }
   }
-
+  
   public Boolean updateStatusRequest(SolicitudEntity solicitud)
     throws NotFoundComponentFeriaVirtualException, InvalidModelException {
     Integer resultUpdate = solicitudRepository.updateStatusRequest(
@@ -120,7 +132,7 @@ public class SolicitudService {
     return id;
   }
 
-  public List<DetalleSolicitudEntity> findAllRequests()
+  public List<DetalleSolicitudEntity> findAllDetailRequests()
     throws NotFoundComponentFeriaVirtualException {
     try {
       List<DetalleSolicitudEntity> resultRequests = (List<DetalleSolicitudEntity>) detalleSolicitudRepository.findAll();
@@ -130,7 +142,7 @@ public class SolicitudService {
     }
   }
 
-  public List<DetalleSolicitudEntity> findAllRequestsByIdRequests(
+  public List<DetalleSolicitudEntity> findAllDetailRequestsByIdRequests(
     Integer idSolicitud
   )
     throws NotFoundComponentFeriaVirtualException {

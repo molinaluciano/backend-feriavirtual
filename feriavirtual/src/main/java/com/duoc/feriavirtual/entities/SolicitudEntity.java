@@ -2,13 +2,16 @@ package com.duoc.feriavirtual.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 
@@ -45,8 +48,16 @@ public class SolicitudEntity implements Serializable {
     @Column(name = "FECHA_PUBLICACION")
     private Date fechaPublicacion;
 
-    
+    @OneToMany
+    @JoinColumn(name = "ID_SOLICITUD")
+    private List<DetalleSolicitudEntity> detallesSolicitud;
 
+    public List<DetalleSolicitudEntity> getDetallesSolicitud() {
+        return detallesSolicitud;
+    }
+    public void setDetallesSolicitud(List<DetalleSolicitudEntity> detallesSolicitud) {
+        this.detallesSolicitud = detallesSolicitud;
+    }
     public Integer getIdTipoSolicitud() {
         return idTipoSolicitud;
     }

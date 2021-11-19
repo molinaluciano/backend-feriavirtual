@@ -30,6 +30,23 @@ public class SolicitudController {
   @Autowired
   SolicitudService solicitudService;
 
+  @GetMapping(value = "/requests")
+  public ResponseEntity<?> getAll() {
+    try {
+      List<SolicitudEntity> requests = solicitudService.findAllRequest();
+      return new ResponseEntity<List<SolicitudEntity>>(requests, HttpStatus.OK);
+    } catch (NotFoundComponentFeriaVirtualException exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.NOT_FOUND
+      );
+    } catch (Exception exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
   @GetMapping(value = "/requests/{id}")
   public ResponseEntity<?> postMethodName(@PathVariable Integer id) {
     LOGGER.debug("CONTROLLER ID:" + id);
@@ -56,7 +73,7 @@ public class SolicitudController {
     try {
       LOGGER.debug("VER TODOS LOS DETALLES DE SOLICITUD");
 
-      List<DetalleSolicitudEntity> requests = solicitudService.findAllRequests();
+      List<DetalleSolicitudEntity> requests = solicitudService.findAllDetailRequests();
       return new ResponseEntity<List<DetalleSolicitudEntity>>(
         requests,
         HttpStatus.OK
@@ -81,7 +98,7 @@ public class SolicitudController {
     try {
       LOGGER.debug("VER DETALLES DE SOLICITUD POR SOLICITUD");
 
-      List<DetalleSolicitudEntity> requests = solicitudService.findAllRequestsByIdRequests(
+      List<DetalleSolicitudEntity> requests = solicitudService.findAllDetailRequestsByIdRequests(
         id
       );
       return new ResponseEntity<List<DetalleSolicitudEntity>>(

@@ -3,6 +3,7 @@ package com.duoc.feriavirtual.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.duoc.feriavirtual.entities.PaisEntity;
 import com.duoc.feriavirtual.entities.tiposYestados.CalidadEntity;
 import com.duoc.feriavirtual.entities.tiposYestados.CategoriaFrutaEntity;
 import com.duoc.feriavirtual.entities.tiposYestados.EstadoContratoEntity;
@@ -37,6 +38,19 @@ public class TiposEstadosController {
     TiposEstadosService tiposEstadosService;
 
  
+    // PAIS
+    @GetMapping(value = "/country")
+    public ResponseEntity<?> selectAllCountry() {
+        try {
+            
+            List<PaisEntity>  quality = tiposEstadosService.selectAllCountry();
+            return new ResponseEntity<List<PaisEntity>  >(quality, HttpStatus.OK);
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+   
     // CALIDAD
     @GetMapping(value = "/select-quality-fruit")
     public ResponseEntity<?> selectAllQuality() {

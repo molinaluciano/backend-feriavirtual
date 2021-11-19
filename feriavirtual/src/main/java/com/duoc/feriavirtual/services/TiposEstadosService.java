@@ -3,6 +3,7 @@ package com.duoc.feriavirtual.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.duoc.feriavirtual.entities.PaisEntity;
 import com.duoc.feriavirtual.entities.tiposYestados.CalidadEntity;
 import com.duoc.feriavirtual.entities.tiposYestados.CategoriaFrutaEntity;
 import com.duoc.feriavirtual.entities.tiposYestados.EstadoContratoEntity;
@@ -23,6 +24,7 @@ import com.duoc.feriavirtual.repositories.tiposYestados.EstadoSolicitudRepositor
 import com.duoc.feriavirtual.repositories.tiposYestados.EstadoSubastaRepository;
 import com.duoc.feriavirtual.repositories.tiposYestados.EstadoVentaRepository;
 import com.duoc.feriavirtual.repositories.tiposYestados.FrutaRepository;
+import com.duoc.feriavirtual.repositories.tiposYestados.PaisRepository;
 import com.duoc.feriavirtual.repositories.tiposYestados.TamanoCamionRepository;
 import com.duoc.feriavirtual.repositories.tiposYestados.TipoCamionRepository;
 import com.duoc.feriavirtual.repositories.tiposYestados.TipoPagoRepository;
@@ -65,7 +67,14 @@ public class TiposEstadosService {
     TipoUsuarioRepository tipoUsuarioRepository;
     @Autowired
     ValoresEstaticosRepository valoresEstaticosRepository;
+    @Autowired
+    PaisRepository paisRepository;
 
+    //  CALIDAD
+    public List<PaisEntity>  selectAllCountry() {
+        List<PaisEntity> result  = paisRepository.findAll();
+        return result;
+    }
     //  CALIDAD
     public List<CalidadEntity>  selectAllQualitys() {
         List<CalidadEntity> result  = calidadRepository.findAll();

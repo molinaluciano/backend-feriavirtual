@@ -31,5 +31,6 @@ public interface SolicitudRepository extends JpaRepository<SolicitudEntity, Inte
     List<SolicitudEntity> findByIdEstadoSolicitud (Integer idEstadoSolicitud);
    
     List<SolicitudEntity> findByIdUsuario (Integer idUsuario);
-
+    
+    List<SolicitudEntity> findByIdSolicitud (Integer idSolicitud);
 }

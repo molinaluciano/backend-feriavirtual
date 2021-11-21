@@ -49,6 +49,26 @@ public class SolicitudController {
       );
     }
   }
+
+  @GetMapping(value = "/get-requests/{id}")
+  public ResponseEntity<?> getRequestById(@PathVariable Integer id) {
+    LOGGER.debug("CONTROLLER ID:" + id);
+    try {
+      List<SolicitudEntity> requests = solicitudService.findRequestById(id);
+      return new ResponseEntity<List<SolicitudEntity>>(requests, HttpStatus.OK);
+    } catch (NotFoundComponentFeriaVirtualException exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.NOT_FOUND
+      );
+    } catch (Exception exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   @GetMapping(value = "/requests/{id}")
   public ResponseEntity<?> getAllRequestByIdStatus(@PathVariable Integer id) {
     LOGGER.debug("CONTROLLER ID:" + id);

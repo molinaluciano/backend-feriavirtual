@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+feriavirtual/src/main/resources/application.yml
+feriavirtual/src/main/resources/application.properties

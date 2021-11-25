@@ -4,7 +4,7 @@ env: "DEV"
 project: "@project.artifactId@"
 api: "api-luciano"
 server:
-  port : 8081
+  port : 8080
 logging:
   level:
     org.springframework: ERROR
@@ -14,9 +14,9 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(Host = localhost)(Port = 1521)))(CONNECT_DATA =(SID = xe)(SERVER=dedicated)))
-    username: fvirtual 
-    password: fvirtual
+    url: jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(Host = localhost)(Port = 1521)))(CONNECT_DATA =(SERVICE_NAME = ORCLCDB.localdomain)(SERVER=dedicated)))
+    username: duoc 
+    password: duoc
     driver-class-name: oracle.jdbc.OracleDriver
   jpa:
     hibernate:

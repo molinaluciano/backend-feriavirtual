@@ -15,7 +15,8 @@ public interface SaldoRepository extends JpaRepository<SaldoEntity, Integer> {
     @Param("ID_CALIDAD_IN") Integer idCalidad,
     @Param("ID_CLIENTE_COMPRADOR_IN") Integer idClienteComprador,
     @Param("DISPONIBLE_IN") Integer disponible,
-    @Param("KILOS_IN") Integer kilos
+    @Param("KILOS_IN") Integer kilos,
+    @Param("PRECIO_IN") Integer precio
   );
 
   @Procedure(name = "Saldo.updateBalance")
@@ -25,7 +26,8 @@ public interface SaldoRepository extends JpaRepository<SaldoEntity, Integer> {
     @Param("ID_CALIDAD_IN") Integer idCalidad,
     @Param("ID_CLIENTE_COMPRADOR_IN") Integer idClienteComprador,
     @Param("DISPONIBLE_IN") Integer disponible,
-    @Param("KILOS_IN") Integer kilos
+    @Param("KILOS_IN") Integer kilos,
+    @Param("PRECIO_IN") Integer precio
   );
 
   @Procedure(name = "Saldo.deleteBalance")

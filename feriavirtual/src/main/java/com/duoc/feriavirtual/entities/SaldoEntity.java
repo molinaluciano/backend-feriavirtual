@@ -19,6 +19,7 @@ import javax.persistence.Column;
             @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_CLIENTE_COMPRADOR_IN", type = Integer.class),
             @StoredProcedureParameter(mode = ParameterMode.IN, name = "DISPONIBLE_IN", type = Integer.class),
             @StoredProcedureParameter(mode = ParameterMode.IN, name = "KILOS_IN", type = Integer.class),
+            @StoredProcedureParameter(mode = ParameterMode.IN, name = "PRECIO_IN", type = Integer.class),
             @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ID_RESULT_OUT", type = Integer.class),
             @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class),
     }),
@@ -29,6 +30,7 @@ import javax.persistence.Column;
         @StoredProcedureParameter(mode = ParameterMode.IN, name = "ID_CLIENTE_COMPRADOR_IN", type = Integer.class),
         @StoredProcedureParameter(mode = ParameterMode.IN, name = "DISPONIBLE_IN", type = Integer.class),
         @StoredProcedureParameter(mode = ParameterMode.IN, name = "KILOS_IN", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "PRECIO_IN", type = Integer.class),
         @StoredProcedureParameter(mode = ParameterMode.OUT, name = "STATUS_RESULT_OUT", type = Integer.class),
     }),
     @NamedStoredProcedureQuery(name = "Saldo.deleteBalance", procedureName = "FV_ADM_DELETE_BALANCE", parameters = {
@@ -50,6 +52,15 @@ public class SaldoEntity implements Serializable {
     private Integer idFruta;
     @Column(name = "ID_CALIDAD")
     private Integer idCalidad;
+    @Column(name = "PRECIO")
+    private Integer precio;
+
+    public Integer getPrecio() {
+        return precio;
+    }
+    public void setPrecio(Integer precio) {
+        this.precio = precio;
+    }
     public Integer getIdSaldo() {
         return idSaldo;
     }

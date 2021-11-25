@@ -34,7 +34,8 @@ public class SaldoService {
       saldo.getIdCalidad(), 
       saldo.getIdCliente(), 
       saldo.getDisponible(), 
-      saldo.getKilos()
+      saldo.getKilos(),
+      saldo.getPrecio()
     );
 
     Integer statusResultOut = (Integer) resultCreateBalance.get(
@@ -80,7 +81,8 @@ public class SaldoService {
       saldo.getIdCalidad(), 
       saldo.getIdCliente(), 
       saldo.getDisponible(), 
-      saldo.getKilos()
+      saldo.getKilos(),
+      saldo.getPrecio()
     );
 
     LOGGER.debug("resultUpdateBalance=" + resultUpdateBalance);

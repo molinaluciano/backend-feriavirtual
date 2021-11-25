@@ -165,6 +165,17 @@ public class ProductorService {
             throw new InvalidModelException("Error - PL - FV_PRO_REQUEST_PARTICIPATION");
         }
     }
+ 
+    public List<ProductorSolicitudEntity>  findAllProducerRequest() throws  NotFoundComponentFeriaVirtualException{
+        try {
+           
+            List<ProductorSolicitudEntity>  resultSelectProducer = productorSolicitudRepository.findAll();
+            return resultSelectProducer;
+            
+        } catch (Exception exception) {
+            throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+        }
+    }
 
 
 }

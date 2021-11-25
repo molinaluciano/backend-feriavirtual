@@ -1,7 +1,9 @@
 package com.duoc.feriavirtual.services;
 
+import com.duoc.feriavirtual.entities.DetalleSubastaEntity;
 import com.duoc.feriavirtual.entities.SubastaEntity;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
+import com.duoc.feriavirtual.repositories.DetalleSubastaRepository;
 import com.duoc.feriavirtual.repositories.SubastaRepository;
 import java.util.List;
 import org.slf4j.Logger;
@@ -17,6 +19,8 @@ public class SubastaService {
 
   @Autowired
   SubastaRepository subastaRepository;
+  @Autowired
+  DetalleSubastaRepository detalleSubastaRepository;
 
   public List<SubastaEntity> findAllSubastas()
     throws NotFoundComponentFeriaVirtualException {
@@ -63,4 +67,15 @@ public class SubastaService {
       throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
     }
   }
+ 
+  public List<DetalleSubastaEntity> findAllDetailSubastas()
+  throws NotFoundComponentFeriaVirtualException {
+  try {
+    List<DetalleSubastaEntity> resultRequests = detalleSubastaRepository.findAll();
+    return resultRequests;
+  } catch (Exception exception) {
+    throw new NotFoundComponentFeriaVirtualException(exception.getMessage());
+  }
+}
+
 }

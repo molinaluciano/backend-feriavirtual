@@ -1,5 +1,6 @@
 package com.duoc.feriavirtual.controllers;
 
+import com.duoc.feriavirtual.entities.DetalleSubastaEntity;
 import com.duoc.feriavirtual.entities.SubastaEntity;
 import com.duoc.feriavirtual.exceptions.NotFoundComponentFeriaVirtualException;
 import com.duoc.feriavirtual.models.ErrorDetail;
@@ -97,4 +98,23 @@ public class SubastaController {
       );
     }
   }
+
+  @GetMapping(value = "/detail-auctions")
+  public ResponseEntity<?> getAllDetailAuctions() {
+    try {
+      List<DetalleSubastaEntity> sales = subastaService.findAllDetailSubastas();
+      return new ResponseEntity<List<DetalleSubastaEntity>>(sales, HttpStatus.OK);
+    } catch (NotFoundComponentFeriaVirtualException exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.NOT_FOUND
+      );
+    } catch (Exception exception) {
+      return new ResponseEntity<ErrorDetail>(
+        new ErrorDetail(exception.getMessage()),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
 }

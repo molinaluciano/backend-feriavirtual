@@ -46,6 +46,21 @@ public class ProductorController {
         }
     }
    
+    @GetMapping(value = "/select-producer-request")
+    public ResponseEntity<?> findAllProducerRequest() {
+        try {
+            
+            List<ProductorSolicitudEntity>  users = productorService.findAllProducerRequest();
+            return new ResponseEntity<List<ProductorSolicitudEntity>  >(users, HttpStatus.OK);
+        } catch (NotFoundComponentFeriaVirtualException exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()), HttpStatus.NOT_FOUND);
+        
+        }catch (Exception exception) {
+            return new ResponseEntity<ErrorDetail>(new ErrorDetail(exception.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+   
     @PostMapping(value = "/create-contract")
     public ResponseEntity<?> postNewContract(@RequestBody ContratoEntity contract) {
         try {

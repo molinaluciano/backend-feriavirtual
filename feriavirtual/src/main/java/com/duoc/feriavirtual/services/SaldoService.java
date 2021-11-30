@@ -46,9 +46,7 @@ public class SaldoService {
     LOGGER.debug("statusResultOut: " + statusResultOut);
     LOGGER.debug("idResultOut: " + idResultOut);
 
-    if (statusResultOut == -4) {
-      throw new InvalidModelException("Patente ya registrada");
-    } else if (statusResultOut == -3) {
+    if (statusResultOut == -3) {
       throw new NotFoundComponentFeriaVirtualException(
         "Disponibilidad invalida"
       );
